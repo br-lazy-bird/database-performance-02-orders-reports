@@ -45,7 +45,7 @@ logs:
 
 db-shell:
 	@echo "Opening PostgreSQL shell..."
-	docker compose -f $(COMPOSE_FILE) --env-file $(ENV_FILE) exec db psql -U lazybird_dev -d employee_directory
+	docker compose -f $(COMPOSE_FILE) --env-file $(ENV_FILE) exec db psql -U lazybird_dev -d sales_report
 
 # Test commands
 test:
