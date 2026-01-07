@@ -1,5 +1,5 @@
 -- Customers Table
-  CREATE TABLE IF NOT EXISTS customers (
+  CREATE TABLE IF NOT EXISTS customer (
       id SERIAL PRIMARY KEY,
       name VARCHAR(100) NOT NULL,
       email VARCHAR(255) NOT NULL UNIQUE,      
@@ -16,12 +16,12 @@
       notes TEXT,
       CONSTRAINT fk_customer
           FOREIGN KEY (customer_id)
-          REFERENCES customers(id)
+          REFERENCES customer(id)
           ON DELETE CASCADE
   );
 
   -- Order Items Table
-  CREATE TABLE IF NOT EXISTS order_items (
+  CREATE TABLE IF NOT EXISTS order_item (
       id SERIAL PRIMARY KEY,
       order_id INTEGER NOT NULL,
       product_name VARCHAR(200) NOT NULL,
@@ -34,8 +34,8 @@
   );
 
   -- Indexes for foreign keys (standard practice)
-  CREATE INDEX idx_orders_customer_id ON orders(customer_id);
-  CREATE INDEX idx_order_items_order_id ON order_items(order_id);
+  CREATE INDEX idx_order_customer_id ON orders(customer_id);
+  CREATE INDEX idx_order_item_order_id ON order_item(order_id);
 
   -- Index for email lookups
-  CREATE INDEX idx_customers_email ON customers(email);
+  CREATE INDEX idx_customer_email ON customer(email);

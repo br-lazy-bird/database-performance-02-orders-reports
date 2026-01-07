@@ -11,14 +11,14 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from .base import Base
 
 if TYPE_CHECKING:
-      from .order import Order
+      from .orders import Orders
       
 class OrderItem(Base):
     """
     Order Items table.
     """
 
-    __tablename__ = "order_items"
+    __tablename__ = "order_item"
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     order_id: Mapped[int] = mapped_column(
@@ -28,7 +28,7 @@ class OrderItem(Base):
     quantity: Mapped[int] = mapped_column(Integer, nullable=False)
     unit_price: Mapped[Decimal] = mapped_column(Numeric(10, 2), nullable=False)
 
-    order: Mapped["Order"] = relationship("Order", back_populates="items")
+    orders: Mapped["Orders"] = relationship("Orders", back_populates="items")
 
     __table_args__ = (
         CheckConstraint("quantity > 0", name="check_positive_quantity"),

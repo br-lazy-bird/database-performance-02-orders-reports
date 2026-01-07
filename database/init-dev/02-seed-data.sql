@@ -37,7 +37,7 @@
   BEGIN
       -- Generate 200 customers
       FOR i IN 1..200 LOOP
-          INSERT INTO customers (name, email, company, created_at)
+          INSERT INTO customer (name, email, company, created_at)
           VALUES (
               first_names[1 + (random() * (array_length(first_names, 1) - 1))::INTEGER] || ' ' ||
               last_names[1 + (random() * (array_length(last_names, 1) - 1))::INTEGER],
@@ -72,7 +72,7 @@
           items_count := 3 + (random() * 2)::INTEGER;
 
           FOR j IN 1..items_count LOOP
-              INSERT INTO order_items (order_id, product_name, quantity, unit_price)
+              INSERT INTO order_item (order_id, product_name, quantity, unit_price)
               VALUES (
                   order_id_val,
                   products[1 + (random() * (array_length(products, 1) - 1))::INTEGER],

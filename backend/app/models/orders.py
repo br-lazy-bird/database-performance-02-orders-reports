@@ -13,7 +13,7 @@ if TYPE_CHECKING:
       from .customer import Customer
       from .order_item import OrderItem
 
-class Order(Base):
+class Orders(Base):
     """
     Orders table.
     """
@@ -22,7 +22,7 @@ class Order(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     customer_id: Mapped[int] = mapped_column(
-        Integer, ForeignKey("customers.id", ondelete="CASCADE"), nullable=False, index=True
+        Integer, ForeignKey("customer.id", ondelete="CASCADE"), nullable=False, index=True
     )
     order_date: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), nullable=False
@@ -31,7 +31,7 @@ class Order(Base):
     notes: Mapped[str | None] = mapped_column(Text, nullable=True)
 
     customer: Mapped["Customer"] = relationship("Customer", back_populates="orders")
-    items: Mapped[List["OrderItem"]] = relationship("OrderItem", back_populates="order")
+    items: Mapped[List["OrderItem"]] = relationship("OrderItem", back_populates="orders")
 
     __table_args__ = (
         CheckConstraint(
@@ -41,4 +41,4 @@ class Order(Base):
     )
 
     def __repr__(self) -> str:
-        return f"<Order(id={self.id}, customer_id={self.customer_id}, status='{self.status}')>"
+        return f"<Orders(id={self.id}, customer_id={self.customer_id}, status='{self.status}')>"

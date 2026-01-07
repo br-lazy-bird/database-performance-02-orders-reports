@@ -10,14 +10,14 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from .base import Base
 
 if TYPE_CHECKING:
-      from .order import Order
+      from .orders import Orders
 
 class Customer(Base):
     """
     Customers table.
     """
 
-    __tablename__ = "customers"
+    __tablename__ = "customer"
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
@@ -27,7 +27,7 @@ class Customer(Base):
         DateTime(timezone=True), server_default=func.now(), nullable=False
     )
 
-    orders: Mapped[List["Order"]] = relationship("Order", back_populates="customer")
+    orders: Mapped[List["Orders"]] = relationship("Orders", back_populates="customer")
 
     def __repr__(self) -> str:
         return f"<Customer(id={self.id}, name='{self.name}', email='{self.email}')>"
