@@ -28,7 +28,7 @@ def get_all_orders(db: Session = Depends(get_db)):
         all_orders = orders_service.get_all_orders()
         return all_orders
     except SQLAlchemyError as e:
-        logger.error("Database error in GET orders/report: %s}", str(e))
+        logger.error("Database error in GET orders/report: %s", str(e))
         raise HTTPException(
             status_code=500,
             detail="Database error occurred during all orders report fetching",

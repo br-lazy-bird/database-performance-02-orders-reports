@@ -3,8 +3,8 @@ Services related to orders.
 """
 
 import time
-from typing import List
 from sqlalchemy.orm import Session
+from decimal import Decimal
 
 from app.repositories.orders import OrdersRepository
 from app.core.database import get_query_count, reset_query_count
@@ -31,12 +31,16 @@ class OrdersService:
             single_order["item_count"] = len(order.items)
             single_order["order_date"] = order.order_date
             single_order["status"] = order.status
+            total = Decimal("0.0")
+            for item in order.items:
+                total += item.unit_price * item.quantity
+            single_order["total"] = total
             response["report"].append(single_order)
         end_time = time.time()
-        duration = end_time - start_time
+        duration = (end_time - start_time) * 1000
         response["metadata"] = {
             "total_orders" : len(response["report"]),
-            "execution_time_ms": duration,
+            "execution_time_ms": round(duration, 2),
             "query_count" : get_query_count(),
         }
         return response

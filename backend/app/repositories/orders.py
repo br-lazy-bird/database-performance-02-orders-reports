@@ -2,8 +2,7 @@
 Repository to handle orders table.
 """
 from typing import List
-from sqlalchemy.orm import Session
-
+from sqlalchemy.orm import Session, joinedload, selectinload
 from app.models.orders import Orders
 
 
@@ -20,4 +19,5 @@ class OrdersRepository:
         Get all orders in the database.
         """
         return self.db.query(Orders).all()
+
 
