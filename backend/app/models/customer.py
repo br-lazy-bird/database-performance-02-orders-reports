@@ -1,16 +1,18 @@
 """
-    Customer table model.
+Customer table model.
 """
 
 from datetime import datetime
-from typing import List, TYPE_CHECKING
-from sqlalchemy import String, DateTime, func
+from typing import TYPE_CHECKING
+
+from sqlalchemy import DateTime, String, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base
 
 if TYPE_CHECKING:
-      from .orders import Orders
+    from .orders import Orders
+
 
 class Customer(Base):
     """
@@ -27,7 +29,9 @@ class Customer(Base):
         DateTime(timezone=True), server_default=func.now(), nullable=False
     )
 
-    orders: Mapped[List["Orders"]] = relationship("Orders", back_populates="customer")
+    orders: Mapped[list["Orders"]] = relationship(
+        "Orders", back_populates="customer"
+    )
 
     def __repr__(self) -> str:
         return f"<Customer(id={self.id}, name='{self.name}', email='{self.email}')>"

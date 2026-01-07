@@ -3,15 +3,25 @@ Order table model.
 """
 
 from datetime import datetime
-from typing import List, TYPE_CHECKING
-from sqlalchemy import String, Integer, Text, DateTime, ForeignKey, func, CheckConstraint
+from typing import TYPE_CHECKING
+
+from sqlalchemy import (
+    CheckConstraint,
+    DateTime,
+    ForeignKey,
+    Integer,
+    String,
+    Text,
+    func,
+)
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base
 
 if TYPE_CHECKING:
-      from .customer import Customer
-      from .order_item import OrderItem
+    from .customer import Customer
+    from .order_item import OrderItem
+
 
 class Orders(Base):
     """
@@ -22,7 +32,10 @@ class Orders(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     customer_id: Mapped[int] = mapped_column(
-        Integer, ForeignKey("customer.id", ondelete="CASCADE"), nullable=False, index=True
+        Integer,
+        ForeignKey("customer.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True
     )
     order_date: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), nullable=False
@@ -30,15 +43,23 @@ class Orders(Base):
     status: Mapped[str] = mapped_column(String(20), nullable=False)
     notes: Mapped[str | None] = mapped_column(Text, nullable=True)
 
-    customer: Mapped["Customer"] = relationship("Customer", back_populates="orders")
-    items: Mapped[List["OrderItem"]] = relationship("OrderItem", back_populates="orders")
+    customer: Mapped["Customer"] = relationship(
+        "Customer", back_populates="orders"
+    )
+    items: Mapped[list["OrderItem"]] = relationship(
+        "OrderItem", back_populates="orders"
+    )
 
     __table_args__ = (
         CheckConstraint(
-            "status IN ('pending', 'processing', 'shipped', 'delivered', 'cancelled')",
+            "status IN ('pending', 'processing', 'shipped', 'delivered', "
+            "'cancelled')",
             name="check_status_values"
         ),
     )
 
     def __repr__(self) -> str:
-        return f"<Orders(id={self.id}, customer_id={self.customer_id}, status='{self.status}')>"
+        return (
+            f"<Orders(id={self.id}, customer_id={self.customer_id}, "
+            f"status='{self.status}')>"
+        )

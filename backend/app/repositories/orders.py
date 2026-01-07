@@ -1,8 +1,8 @@
 """
 Repository to handle orders table.
 """
-from typing import List
-from sqlalchemy.orm import Session, joinedload, selectinload
+from sqlalchemy.orm import Session
+
 from app.models.orders import Orders
 
 
@@ -14,9 +14,12 @@ class OrdersRepository:
     def __init__(self, db: Session) -> None:
         self.db = db
 
-    def get_all_orders(self) -> List[Orders]:
+    def get_all_orders(self) -> list[Orders]:
         """
         Get all orders in the database.
+
+        Returns:
+            list[Orders]: All orders from the database.
         """
         return self.db.query(Orders).all()
 

@@ -1,18 +1,19 @@
 """
-  Order Item table model.
-  """
+Order Item table model.
+"""
 
 from decimal import Decimal
 from typing import TYPE_CHECKING
 
-from sqlalchemy import Integer, String, Numeric, ForeignKey, CheckConstraint
+from sqlalchemy import CheckConstraint, ForeignKey, Integer, Numeric, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base
 
 if TYPE_CHECKING:
-      from .orders import Orders
-      
+    from .orders import Orders
+
+
 class OrderItem(Base):
     """
     Order Items table.
@@ -22,7 +23,10 @@ class OrderItem(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     order_id: Mapped[int] = mapped_column(
-        Integer, ForeignKey("orders.id", ondelete="CASCADE"), nullable=False, index=True
+        Integer,
+        ForeignKey("orders.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True
     )
     product_name: Mapped[str] = mapped_column(String(200), nullable=False)
     quantity: Mapped[int] = mapped_column(Integer, nullable=False)
@@ -36,4 +40,7 @@ class OrderItem(Base):
     )
 
     def __repr__(self) -> str:
-        return f"<OrderItem(id={self.id}, order_id={self.order_id}, product='{self.product_name}')>"
+        return (
+            f"<OrderItem(id={self.id}, order_id={self.order_id}, "
+            f"product='{self.product_name}')>"
+        )
