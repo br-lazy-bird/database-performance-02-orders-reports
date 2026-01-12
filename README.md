@@ -1,6 +1,6 @@
 # Sales Reports System
 
-A sales reporting system experiencing performance issues with database queries. Investigate why report generation is slow and optimize the backend to improve response times.
+A sales reporting system experiencing performance issues. Investigate why report generation is slow and optimize the backend to improve response times.
 
 ---
 
@@ -69,10 +69,10 @@ When you load the sales report in the application, you'll notice the system take
 
 1. Investigate why the report generation is so slow
 2. Diagnose the root cause of the performance issue
-3. Implement the optimization to improve query performance
+3. Implement the optimization to improve performance
 4. Verify that the problem is resolved
 
-**Important:** This system demonstrates a real-world database query problem. Do NOT bypass the issue by reducing data volume or removing relationships. The goal is to optimize how the application queries the database.
+**Important:** This system demonstrates a real-world database performance problem. Do NOT bypass the issue by reducing data volume or removing relationships. The goal is to optimize how the application interacts with the database.
 
 **Note:** Orders are constantly being updated throughout the day, with new orders coming in and existing orders being modified every few seconds. This means caching solutions would not be practical for this real-time reporting requirement.
 
@@ -97,9 +97,7 @@ The improvement should be immediately visible in the metrics footer displayed in
 1. Open http://localhost:3000 in your browser
 2. Click the "Load Report" button
 3. Observe the loading time (watch the spinner)
-4. Once loaded, check the metrics at the bottom:
-   - **Query Count:** Number of database queries executed
-   - **Execution Time:** Total time to generate the report
+4. Once loaded, check the metrics at the bottom for performance data
 
 The report displays a scrollable table with:
 - Order ID
@@ -141,7 +139,7 @@ The report displays a scrollable table with:
 
 ### Database Access
 
-Connect to the PostgreSQL database to investigate queries:
+Connect to the PostgreSQL database to investigate:
 
 ```bash
 # Access database shell
@@ -182,7 +180,7 @@ The integration tests verify that:
 - The `/orders/report` endpoint returns valid data
 - All required fields are present in the response
 - The system executes correctly with the expected data structure
-- Query count and execution time metadata are tracked correctly
+- Performance metadata is tracked correctly
 
 ---
 
@@ -192,10 +190,10 @@ For detailed diagnostic guidance and step-by-step optimization instructions, see
 
 The guide walks you through:
 1. Identifying the performance bottleneck
-2. Understanding why the system executes so many queries
+2. Understanding the root cause of the slow performance
 3. Implementing the optimization technique
 4. Measuring the performance improvement
-5. Production considerations for query optimization
+5. Production considerations for optimization
 
 ---
 
@@ -211,4 +209,4 @@ make clean
 
 ---
 
-Ready to start? Load the report and observe how many queries it takes. Then dive into the DETONADO guide to learn how to optimize it!
+Ready to start? Load the report and observe the performance metrics. Then dive into the DETONADO guide to learn how to optimize it!
