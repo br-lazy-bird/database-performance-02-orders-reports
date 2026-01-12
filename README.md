@@ -1,6 +1,6 @@
 # Sales Reports System
 
-A demonstration of the N+1 query problem and how to optimize database queries using eager loading with SQLAlchemy ORM.
+A sales reporting system experiencing performance issues with database queries. Investigate why report generation is slow and optimize the backend to improve response times.
 
 ---
 
@@ -69,10 +69,12 @@ When you load the sales report in the application, you'll notice the system take
 
 1. Investigate why the report generation is so slow
 2. Diagnose the root cause of the performance issue
-3. Implement the optimization using proper ORM techniques
+3. Implement the optimization to improve query performance
 4. Verify that the problem is resolved
 
-**Important:** This system demonstrates a real-world database query problem. Do NOT bypass the issue by reducing data volume or removing relationships. The goal is to optimize the queries themselves using SQLAlchemy's eager loading features.
+**Important:** This system demonstrates a real-world database query problem. Do NOT bypass the issue by reducing data volume or removing relationships. The goal is to optimize how the application queries the database.
+
+**Note:** Orders are constantly being updated throughout the day, with new orders coming in and existing orders being modified every few seconds. This means caching solutions would not be practical for this real-time reporting requirement.
 
 ---
 
@@ -80,8 +82,8 @@ When you load the sales report in the application, you'll notice the system take
 
 You'll know you've successfully optimized the system when:
 
-- **Query Count drops dramatically:** From 500+ queries to just 3-5 queries
-- **Response time improves significantly:** From several hundred milliseconds to under 100ms
+- **Response time improves significantly:** The report loads much faster
+- **The metrics show improvement:** The execution time visible in the frontend drops substantially
 - **The data remains complete:** All orders still show customer names and item counts
 
 The improvement should be immediately visible in the metrics footer displayed in the frontend after loading the report.
@@ -179,7 +181,7 @@ make test-build
 The integration tests verify that:
 - The `/orders/report` endpoint returns valid data
 - All required fields are present in the response
-- The system demonstrates the N+1 problem (before optimization)
+- The system executes correctly with the expected data structure
 - Query count and execution time metadata are tracked correctly
 
 ---
@@ -189,9 +191,9 @@ The integration tests verify that:
 For detailed diagnostic guidance and step-by-step optimization instructions, see the [DETONADO Guide](./DETONADO.md).
 
 The guide walks you through:
-1. Identifying the N+1 query problem
-2. Understanding how ORMs can create excessive queries
-3. Using SQLAlchemy's eager loading (joinedload/selectinload)
+1. Identifying the performance bottleneck
+2. Understanding why the system executes so many queries
+3. Implementing the optimization technique
 4. Measuring the performance improvement
 5. Production considerations for query optimization
 
