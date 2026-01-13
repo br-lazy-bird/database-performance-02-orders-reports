@@ -31,7 +31,7 @@ Click the "Load Report" button and observe the metrics at the bottom:
 - **Execution Time:** 200-300ms (depends on your machine)
 - **Total Orders:** 500
 
-Take note of these numbers—they represent the **broken state** of the system.
+Take note of these numbers, they represent the **broken state** of the system.
 
 ---
 
@@ -50,7 +50,7 @@ This pattern is language-agnostic and affects virtually all ORMs: SQLAlchemy, Dj
 
 ### Why ORMs Create This Problem
 
-Most ORMs use **lazy loading** by default—related data is only fetched when you access it in code. This is convenient for small datasets but becomes a bottleneck when processing collections with relationships.
+Most ORMs use **lazy loading** by default, related data is only fetched when you access it in code. This is convenient for small datasets but becomes a bottleneck when processing collections with relationships.
 
 **Example in SQLAlchemy (Python):**
 ```python
@@ -69,47 +69,21 @@ for order in orders:
 
 ### Step 1: Examine the Backend Logs
 
-Look at your terminal running the backend service. You should see logs like this:
+In order to see the logs, you can execute `make logs`. 
 
-```
-INFO:     Returning report data with 500 orders (Query count: 685, Time: 245.67ms)
-```
-
-Now let's understand where these 685 queries come from.
-
-### Step 2: Check the Database Logs (Optional)
-
-If you want to see the actual SQL queries being executed, you can enable SQLAlchemy query logging:
-
-```bash
-# In backend container, the logs will show each query
-docker logs orders_report_backend -f
-```
-
-You'll see patterns like:
+Look at your terminal running the backend service. You should logs related to each `order_id` , that looks like this:
 
 ```sql
--- Query 1: Fetch all orders
-SELECT orders.id, orders.customer_id, orders.order_date, orders.status, orders.notes
-FROM orders;
 
--- Query 2: Fetch customer for order 1
-SELECT customer.id, customer.name, customer.email, customer.company
+SELECT customer.id AS customer_id, customer.name AS customer_name, customer.email AS customer_email, customer.company AS customer_company, customer.created_at AS customer_created_at
 FROM customer
-WHERE customer.id = 45;
+WHERE customer.id = %(pk_1)s::INTEGER
 
--- Query 3: Fetch items for order 1
-SELECT order_item.id, order_item.product_name, order_item.quantity, order_item.unit_price
-FROM order_item
-WHERE order_item.order_id = 1;
-
--- Query 4: Fetch customer for order 2
-SELECT customer.id, customer.name, customer.email, customer.company
-FROM customer
-WHERE customer.id = 23;
-
--- Query 5: Fetch items for order 2
 ...
+
+SELECT order_item.id AS order_item_id, order_item.order_id AS order_item_order_id, order_item.product_name AS order_item_product_name, order_item.quantity AS order_item_quantity, order_item.unit_price AS order_item_unit_price
+FROM order_item
+WHERE %(param_1)s::INTEGER = order_item.order_id
 ```
 
 **See the pattern?** For each of the 500 orders:
@@ -214,32 +188,6 @@ SQLAlchemy provides specific functions to implement these strategies:
 
 Open `backend/app/repositories/orders.py` and update the `get_all_orders` method:
 
-**BEFORE:**
-```python
-from sqlalchemy.orm import Session
-
-from app.models.orders import Orders
-
-
-class OrdersRepository:
-    """
-    Repository for Orders database operations.
-    """
-
-    def __init__(self, db: Session) -> None:
-        self.db = db
-
-    def get_all_orders(self) -> list[Orders]:
-        """
-        Get all orders in the database.
-
-        Returns:
-            list[Orders]: All orders from the database.
-        """
-        return self.db.query(Orders).all()
-```
-
-**AFTER:**
 ```python
 from sqlalchemy.orm import Session, joinedload, selectinload
 
@@ -309,7 +257,7 @@ Instead of 685 individual queries (1 for orders + 500 for customers + 500 for it
 1. **Query 1:** JOIN to fetch orders + customers in one query
 2. **Query 2:** IN clause to fetch all order items in one batch query
 
-The optimization **does not change the output**—only the efficiency. All data should display correctly with dramatically improved performance.
+The optimization **does not change the output**, only the efficiency. All data should display correctly with dramatically improved performance.
 
 ---
 
@@ -341,10 +289,18 @@ This guide covered the fundamental N+1 problem and its solution using eager load
 - Profile first, optimize strategically, and always measure the impact
 
 **Results Achieved:**
-- ✅ 99% fewer queries (685 → 2)
-- ✅ 3-5x faster response time
-- ✅ Same functionality, better performance
+- 99% fewer queries (685 → 2)
+- 3-5x faster response time
+- Same functionality, better performance
 
 ---
 
 **Ready for more challenges?** Check out the other broken systems in the Lazy Bird repository to learn about different optimization patterns!
+
+
+
+
+
+
+
+git clone --recurse-submodules git@github.com:br-lazy-bird/lazy-bird.git
