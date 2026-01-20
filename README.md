@@ -63,7 +63,7 @@ The system will start three services:
 
 ## Meet the Lazy Bird
 
-> The Lazy Bird is a peculiar creature. It has an exceptional talent for catching bugs... but absolutely zero motivation to fix them. You'll find it wandering around codebases, spotting issues, and then immediately looking for someone else to do the hard work.
+> 🐦 The Lazy Bird is a peculiar creature. It has an exceptional talent for catching bugs... but absolutely zero motivation to fix them. You'll find it wandering around codebases, spotting issues, and then immediately looking for someone else to do the hard work.
 >
 > Today, it found you.
 
@@ -71,11 +71,7 @@ The system will start three services:
 
 ## The Problem
 
-> "Hey... so the sales team needs this orders report for their meeting, right? And they keep complaining that it takes forever to load."
->
-> "I checked the metrics and... yeah, something's off. It's just 500 orders but the system is struggling. The backend logs look... busy."
->
-> "I'd investigate more but I have a really important staring contest with my ceiling scheduled, so... could you take a look? Load that report and figure out why it's so slow. Thanks!"
+> 🐦 "Hey... so the sales team needs this orders report for their meeting, right? And they keep complaining that it takes forever to load. I checked the metrics and... yeah, something's off. It's just 500 orders but the system is struggling. The backend logs look... busy. I'd investigate more but I have a really important staring contest with my ceiling scheduled, so... could you take a look? Load that report and figure out why it's so slow. Thanks!"
 
 **Your Mission:**
 
