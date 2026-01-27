@@ -273,9 +273,7 @@ This guide covered the fundamental N+1 problem and its solution using eager load
 - Database indexing for optimal eager loading performance
 
 **Learn More:**
-- **General N+1 concepts:** [Understanding the N+1 Query Problem](https://secure.phabricator.com/book/phabcontrib/article/n_plus_one/)
-- **SQLAlchemy specifics:** [Relationship Loading Techniques](https://docs.sqlalchemy.org/en/20/orm/queryguide/relationships.html)
-- **Other ORMs:** Django ([select_related](https://docs.djangoproject.com/en/stable/ref/models/querysets/#select-related)), Hibernate ([Fetching](https://docs.jboss.org/hibernate/orm/current/userguide/html_single/Hibernate_User_Guide.html#fetching)), ActiveRecord ([Eager Loading](https://guides.rubyonrails.org/active_record_querying.html#eager-loading-associations))
+- [Lazy Bird Blog - N+1 Problem](https://lazybird.com.br/blog/2025-12-20-lazy-bird---nplusoneproblem/)
 
 ---
 
