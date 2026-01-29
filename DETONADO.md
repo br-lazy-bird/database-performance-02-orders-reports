@@ -298,7 +298,3 @@ This guide covered the fundamental N+1 problem and its solution using eager load
 > "Eager loading, huh? Yeah, I was gonna suggest that... eventually. Anyway, thanks for the help. I'm gonna go back to my nap now. But hey, if I find another bug, I know who to call..."
 
 **Ready for more challenges?** Check out the other broken systems in the Lazy Bird repository to learn about different optimization patterns!
-
-
-
-git clone --recurse-submodules git@github.com:br-lazy-bird/lazy-bird.git
